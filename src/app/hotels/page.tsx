@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     'Search and filter world-class restful hotels by acoustic quietness, Hästens and Naturalmat bedding, 100% blackout blinds, and biophilic wellness design.',
 };
 
+export const runtime = 'edge';
 export const revalidate = 60;
 
 interface ExplorePageProps {

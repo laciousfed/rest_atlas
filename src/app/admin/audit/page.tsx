@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getAuditLogs } from '@/lib/db/hotel-repository';
 import { ShieldCheck, History, ArrowLeft, ArrowRight, Sliders } from 'lucide-react';
 
+export const runtime = 'edge';
 export const revalidate = 0;
 
 export default async function AdminAuditTrailPage() {

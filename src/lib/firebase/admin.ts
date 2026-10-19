@@ -1,11 +1,14 @@
 import * as admin from 'firebase-admin';
 
 export const isAdminConfigured = (): boolean => {
+  const privateKey = process.env.FIREBASE_PRIVATE_KEY || '';
+  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL || '';
   return Boolean(
     process.env.FIREBASE_PROJECT_ID &&
-    process.env.FIREBASE_CLIENT_EMAIL &&
-    process.env.FIREBASE_PRIVATE_KEY &&
-    !process.env.FIREBASE_CLIENT_EMAIL.includes('xxxxx')
+    !process.env.FIREBASE_PROJECT_ID.includes('REPLACE_WITH') &&
+    clientEmail.includes('@') &&
+    !clientEmail.includes('REPLACE_WITH') &&
+    privateKey.includes('BEGIN PRIVATE KEY')
   );
 };
 

@@ -13,6 +13,8 @@ import {
   Video,
 } from 'lucide-react';
 
+export const runtime = 'edge';
+
 export const revalidate = 0;
 
 export default async function AdminHotelsDirectoryPage() {

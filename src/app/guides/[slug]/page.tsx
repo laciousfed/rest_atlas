@@ -23,6 +23,9 @@ interface GuidePageProps {
   params: { slug: string };
 }
 
+export const runtime = 'edge';
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return GUIDE_ARTICLES.map((guide) => ({
     slug: guide.slug,

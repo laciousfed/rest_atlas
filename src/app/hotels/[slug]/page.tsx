@@ -31,6 +31,7 @@ interface HotelPageProps {
   params: { slug: string };
 }
 
+export const runtime = 'edge';
 export const revalidate = 60;
 
 export async function generateMetadata({ params }: HotelPageProps): Promise<Metadata> {

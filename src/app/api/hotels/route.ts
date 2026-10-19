@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getHotels, createHotel } from '@/lib/db/hotel-repository';
 import { HotelFilterOptions } from '@/types/hotel';
 
+export const runtime = 'edge';
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);

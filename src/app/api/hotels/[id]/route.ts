@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getHotelById, updateHotel } from '@/lib/db/hotel-repository';
 
+export const runtime = 'edge';
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }

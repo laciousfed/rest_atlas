@@ -13,6 +13,8 @@ import {
   TrendingUp,
 } from 'lucide-react';
 
+export const runtime = 'edge';
+
 export const revalidate = 0; // Dynamic admin metrics
 
 export default async function AdminDashboardOverviewPage() {
