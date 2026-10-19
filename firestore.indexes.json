@@ -1,0 +1,63 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "hotels",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "listingStatus", "order": "ASCENDING" },
+        { "fieldPath": "restScore", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "hotels",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "listingStatus", "order": "ASCENDING" },
+        { "fieldPath": "continent", "order": "ASCENDING" },
+        { "fieldPath": "restScore", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "hotels",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "listingStatus", "order": "ASCENDING" },
+        { "fieldPath": "country", "order": "ASCENDING" },
+        { "fieldPath": "restScore", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "hotels",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "listingStatus", "order": "ASCENDING" },
+        { "fieldPath": "guestRating", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "hotels",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "listingStatus", "order": "ASCENDING" },
+        { "fieldPath": "scoreBreakdown.bedComfort", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "hotels",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "listingStatus", "order": "ASCENDING" },
+        { "fieldPath": "scoreBreakdown.quietness", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "hotels",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "listingStatus", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

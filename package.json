@@ -1,0 +1,37 @@
+{
+  "name": "rest-atlas",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "pages:build": "npx @cloudflare/next-on-pages",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "node node_modules/vitest/vitest.mjs run",
+    "test:watch": "node node_modules/vitest/vitest.mjs"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "firebase": "^11.4.0",
+    "firebase-admin": "^13.2.0",
+    "lucide-react": "^1.16.0",
+    "next": "^14.2.24",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.6.0"
+  },
+  "devDependencies": {
+    "@next/swc-wasm-nodejs": "^14.2.33",
+    "@types/node": "^20.17.19",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8",
+    "@cloudflare/next-on-pages": "^1.13.7",
+    "wrangler": "^3.109.2"
+  }
+}

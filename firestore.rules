@@ -1,0 +1,96 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.admin == true ||
+        request.auth.token.role in ['super_admin', 'hotel_editor', 'sleep_assessor', 'review_editor', 'read_only_analyst']
+      );
+    }
+
+    function isSuperAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.admin == true ||
+        request.auth.token.role == 'super_admin'
+      );
+    }
+
+    function isScoreAssessor() {
+      return isAuthenticated() && (
+        request.auth.token.admin == true ||
+        request.auth.token.role in ['super_admin', 'sleep_assessor']
+      );
+    }
+
+    function isHotelEditor() {
+      return isAuthenticated() && (
+        request.auth.token.admin == true ||
+        request.auth.token.role in ['super_admin', 'hotel_editor']
+      );
+    }
+
+    // Hotels Collection
+    // Public visitors can only view published listings
+    // Authenticated administrators can read drafts and edit listings
+    match /hotels/{hotelId} {
+      allow read: if resource.data.listingStatus == 'published' || isAdmin();
+      allow create, update: if isHotelEditor() || isSuperAdmin();
+      allow delete: if isSuperAdmin();
+    }
+
+    // Detailed Sleep & Relaxation Score Assessments
+    match /hotelScores/{scoreId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow create, update: if isScoreAssessor();
+      allow delete: if isSuperAdmin();
+    }
+
+    // Editorial Reviews
+    match /editorialReviews/{reviewId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow create, update: if isAdmin();
+      allow delete: if isSuperAdmin();
+    }
+
+    // Admin Users Directory
+    match /adminUsers/{userId} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isSuperAdmin());
+      allow write: if isSuperAdmin();
+    }
+
+    // Contact Messages from Public
+    // Public visitors can submit contact forms with basic validation
+    match /contactMessages/{messageId} {
+      allow create: if request.resource.data.name is string &&
+                       request.resource.data.email is string &&
+                       request.resource.data.message is string;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Reported Listing Issues
+    match /reportedListingIssues/{issueId} {
+      allow create: if request.resource.data.hotelId is string &&
+                       request.resource.data.description is string;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Newsletter Subscribers
+    match /newsletterSubscribers/{subscriberId} {
+      allow create: if request.resource.data.email is string;
+      allow read, delete: if isAdmin();
+    }
+
+    // System Audit Logs (Immutable from client, managed by privileged server or super admins)
+    match /auditLogs/{logId} {
+      allow read: if isSuperAdmin();
+      allow write: if false; // Only written via Firebase Admin SDK
+    }
+  }
+}
