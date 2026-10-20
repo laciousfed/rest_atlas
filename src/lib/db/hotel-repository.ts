@@ -61,7 +61,7 @@ export async function getHotels(filters: HotelFilterOptions = {}): Promise<{
         }
         const snapshot = await query.get();
         if (!snapshot.empty) {
-          const liveHotels = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Hotel));
+          const liveHotels = snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() } as Hotel));
           return filterAndPaginate(liveHotels, filters);
         }
       } catch (err) {
