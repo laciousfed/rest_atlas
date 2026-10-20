@@ -39,6 +39,7 @@ const nextConfig = {
         https: false,
         http2: false,
         zlib: false,
+        querystring: false,
         child_process: false,
         worker_threads: false,
       };
