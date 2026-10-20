@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
 
     // If Firestore Admin is available, store in database
     if (isAdminConfigured()) {
-      const firestore = getAdminFirestore();
+      const firestore = await getAdminFirestore();
       if (firestore) {
         await firestore.collection('contactMessages').add(contactEntry);
       }

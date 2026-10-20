@@ -49,7 +49,7 @@ export async function getHotels(filters: HotelFilterOptions = {}): Promise<{
 }> {
   // If real Firestore is configured on the server, we can query it
   if (isAdminConfigured()) {
-    const firestore = getAdminFirestore();
+    const firestore = await getAdminFirestore();
     if (firestore) {
       try {
         let query = firestore.collection('hotels').where('listingStatus', '==', 'published');
@@ -320,7 +320,7 @@ export async function createHotel(
 
   // If Firestore is available, mirror there
   if (isAdminConfigured()) {
-    const firestore = getAdminFirestore();
+    const firestore = await getAdminFirestore();
     if (firestore) {
       await firestore.collection('hotels').doc(id).set(newHotel);
     }
@@ -360,7 +360,7 @@ export async function updateHotel(
 
   // Mirror to Firestore
   if (isAdminConfigured()) {
-    const firestore = getAdminFirestore();
+    const firestore = await getAdminFirestore();
     if (firestore) {
       await firestore.collection('hotels').doc(id).set(updated, { merge: true });
     }
@@ -422,7 +422,7 @@ export async function updateHotelScore(
 
   // Mirror audit log to Firestore if available
   if (isAdminConfigured()) {
-    const firestore = getAdminFirestore();
+    const firestore = await getAdminFirestore();
     if (firestore) {
       await firestore.collection('auditLogs').add(auditEntry);
     }

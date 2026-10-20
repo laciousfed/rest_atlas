@@ -1,4 +1,10 @@
-import * as admin from 'firebase-admin';
+// IMPORTANT: Do NOT use a top-level static import for firebase-admin.
+// firebase-admin depends on Node.js built-ins (stream, crypto, net, tls)
+// which are unavailable in the Cloudflare Edge Runtime.
+// Dynamic imports below are excluded from the edge bundle by webpack,
+// and are only executed at runtime when isAdminConfigured() returns true
+// (i.e. real Firebase credentials are present, which never happens on Cloudflare
+// without explicitly setting them in the dashboard).
 
 export const isAdminConfigured = (): boolean => {
   const privateKey = process.env.FIREBASE_PRIVATE_KEY || '';
@@ -12,16 +18,18 @@ export const isAdminConfigured = (): boolean => {
   );
 };
 
-export function getAdminApp(): admin.app.App | null {
-  if (!isAdminConfigured()) {
-    return null;
-  }
-
-  if (admin.apps.length > 0) {
-    return admin.apps[0]!;
-  }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getAdminApp(): Promise<any | null> {
+  if (!isAdminConfigured()) return null;
 
   try {
+    // Dynamic import keeps firebase-admin OUT of the edge bundle
+    const admin = await import('firebase-admin');
+
+    if (admin.apps.length > 0) {
+      return admin.apps[0];
+    }
+
     const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
     return admin.initializeApp({
@@ -38,12 +46,26 @@ export function getAdminApp(): admin.app.App | null {
   }
 }
 
-export function getAdminFirestore(): admin.firestore.Firestore | null {
-  const app = getAdminApp();
-  return app ? app.firestore() : null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getAdminFirestore(): Promise<any | null> {
+  const app = await getAdminApp();
+  if (!app) return null;
+  try {
+    const admin = await import('firebase-admin');
+    return admin.firestore(app);
+  } catch {
+    return null;
+  }
 }
 
-export function getAdminAuth(): admin.auth.Auth | null {
-  const app = getAdminApp();
-  return app ? app.auth() : null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getAdminAuth(): Promise<any | null> {
+  const app = await getAdminApp();
+  if (!app) return null;
+  try {
+    const admin = await import('firebase-admin');
+    return admin.auth(app);
+  } catch {
+    return null;
+  }
 }
